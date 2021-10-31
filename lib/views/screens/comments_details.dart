@@ -91,10 +91,6 @@ class CommentDetailsScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    // element.coment!,
-                                    // style: Theme.of(context).textTheme.headline3!.copyWith(
-                                    //       fontWeight: FontWeight.normal,
-                                    //     ),
                                   ),
                                   Text(
                                     element.dateTime!,
