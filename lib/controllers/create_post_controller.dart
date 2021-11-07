@@ -11,7 +11,6 @@ class CreatePostController extends GetxController {
   File? postImage;
   bool state = false;
 
-
   Future getPostImage() async {
     final XFile? pikcedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
@@ -65,6 +64,8 @@ class CreatePostController extends GetxController {
         "postId": value.id,
       });
     }).catchError((error) {
+      state = false;
+      update();
       print(error.toString());
     });
     state = false;

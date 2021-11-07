@@ -27,8 +27,6 @@ class HomeController extends GetxController {
     });
   }
 
-
-
   Future likePost({required PostModel postModel}) async {
     if (postModel.likes!.containsKey(UserController.model!.uId)) {
       bool _isLiked = postModel.likes![UserController.model!.uId];
@@ -90,8 +88,13 @@ class HomeController extends GetxController {
         .doc(postId)
         .collection("comments")
         .add(commentModel.toMap())
-        .then((value) {})
-        .catchError((error) {
+        .then((value) {
+      value.update({
+        "commentId": value.id,
+      });
+      
+      update();
+    }).catchError((error) {
       print(error.toString());
     });
 
@@ -111,8 +114,32 @@ class HomeController extends GetxController {
       value.docs.forEach((element) {
         comments.add(CommentModel.fromJson(element.data()));
       });
+      print(comments);
     }).catchError((error) {
       print(error.toString());
+    });
+  }
+
+  Future deleteComment({
+    required String postId,
+    required CommentModel commentModel,
+  }) async {
+    //Use it when an error occurs.
+    CommentModel _currentModel = commentModel;
+
+    comments.remove(commentModel);
+    update();
+
+    await _fireStore
+        .collection("posts")
+        .doc(postId)
+        .collection("comments")
+        .doc(commentModel.commentId)
+        .delete()
+        .catchError((error) {
+      comments.add(_currentModel);
+      update();
+      print(error);
     });
   }
 
@@ -138,5 +165,4 @@ class HomeController extends GetxController {
     });
     return _users;
   }
-
 }

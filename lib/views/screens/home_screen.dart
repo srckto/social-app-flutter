@@ -162,10 +162,12 @@ class HomeScreen extends StatelessWidget {
                   onTap: () async {
                     await _homeController.showComments(postId: postModel.postId!);
 
-                    Get.to(() => CommentDetailsScreen(
-                          comments: _homeController.comments,
-                          postModel: postModel,
-                        ));
+                    Get.to(
+                      () => CommentDetailsScreen(
+                        comments: _homeController.comments,
+                        postModel: postModel,
+                      ),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -202,9 +204,7 @@ class HomeScreen extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     _homeController.likePost(
-                      // postId: postModel.postId!,
                       postModel: postModel,
-                      // likeCount: postModel.likeCount!,
                     );
                   },
                   child: Padding(
