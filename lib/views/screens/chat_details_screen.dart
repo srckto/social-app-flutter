@@ -4,6 +4,7 @@ import 'package:social_app/controllers/message_contoller.dart';
 import 'package:social_app/controllers/user_controller.dart';
 import 'package:social_app/models/user_model.dart';
 import 'package:social_app/styles/Iconly-Broken_icons.dart';
+import 'package:social_app/views/screens/user_detail_screen.dart';
 import 'package:social_app/views/widgets/image_profile.dart';
 
 // ignore: must_be_immutable
@@ -106,7 +107,10 @@ class ChatDetailsScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ImageProfile(image: userModel.image!, radius: 15),
+        GestureDetector(
+          onTap: () => Get.to(() => UserDetailsScreen(userModel: userModel)),
+          child: ImageProfile(image: userModel.image!, radius: 15),
+        ),
         SizedBox(width: 6),
         Container(
           padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -152,12 +156,15 @@ class ChatDetailsScreen extends StatelessWidget {
   AppBar _appBar() {
     return AppBar(
       titleSpacing: 0.0,
-      title: Row(
-        children: [
-          ImageProfile(image: userModel.image!, radius: 18),
-          SizedBox(width: 15),
-          Text(userModel.name!),
-        ],
+      title: GestureDetector(
+        onTap: () => Get.to(() => UserDetailsScreen(userModel: userModel)),
+        child: Row(
+          children: [
+            ImageProfile(image: userModel.image!, radius: 18),
+            SizedBox(width: 15),
+            Text(userModel.name!),
+          ],
+        ),
       ),
       centerTitle: false,
       leading: IconButton(

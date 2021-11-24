@@ -5,7 +5,7 @@ import 'package:social_app/views/screens/chat_screen.dart';
 import 'package:social_app/views/screens/home_screen.dart';
 import 'package:social_app/views/screens/create_post_screen.dart';
 import 'package:social_app/views/screens/setting_screen.dart';
-import 'package:social_app/views/screens/users_screen.dart';
+import 'package:social_app/views/screens/user_location_screen.dart';
 
 class BoardingItem {
   final String label;
@@ -25,7 +25,7 @@ class SocialLayoutController {
     BoardingItem(label: "Home", icon: Icon(Iconly_Broken.Home), screen: HomeScreen()),
     BoardingItem(label: "Chat", icon: Icon(Iconly_Broken.Chat), screen: ChatScreen()),
     BoardingItem(label: "Post", icon: Icon(Iconly_Broken.Paper_Upload), screen: CreatePostScreen()),
-    BoardingItem(label: "Users", icon: Icon(Iconly_Broken.Location), screen: UsersScreen()),
+    BoardingItem(label: "Location", icon: Icon(Iconly_Broken.Location), screen: UserLocationScreen()),
     BoardingItem(label: "Setting", icon: Icon(Iconly_Broken.Setting), screen: SettingScreen()),
   ];
 

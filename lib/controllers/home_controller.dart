@@ -92,7 +92,7 @@ class HomeController extends GetxController {
       value.update({
         "commentId": value.id,
       });
-      
+
       update();
     }).catchError((error) {
       print(error.toString());

@@ -6,6 +6,7 @@ import 'package:social_app/constant.dart';
 import 'package:social_app/controllers/user_controller.dart';
 import 'package:social_app/views/screens/login_screen.dart';
 import 'package:social_app/views/screens/social_layout.dart';
+// AIzaSyA36SoPQP5-8d4u9ocJgL1n1NZrutGF4SQ
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
