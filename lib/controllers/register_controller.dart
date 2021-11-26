@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:social_app/controllers/user_controller.dart';
 import 'package:social_app/models/user_model.dart';
@@ -50,6 +51,17 @@ class RegisterController extends GetxController {
       Get.off(() => SocialLayout());
     } on FirebaseAuthException catch (e) {
       state.value = false;
+
+
+      // Show an error in screen
+      Get.snackbar(
+        "Error",
+        e.message.toString(),
+        backgroundColor: Colors.red,
+        margin: EdgeInsets.all(15),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {

@@ -28,17 +28,16 @@ class LoginController extends GetxController {
     } on FirebaseAuthException catch (e) {
       state.value = false;
 
-      // Show error to user if found
 
+      // Show an error in screen
       Get.snackbar(
         "Error",
-        e.toString(),
+        e.message.toString(),
         backgroundColor: Colors.red,
         margin: EdgeInsets.all(15),
         snackPosition: SnackPosition.BOTTOM,
       );
 
-      // print in consel
 
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
