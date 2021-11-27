@@ -151,7 +151,6 @@ class HomeScreen extends StatelessWidget {
                           size: 22,
                         ),
                         SizedBox(width: 5),
-                        // Text("_homeController.likes.value[index].toString()"),
                         Text("${postModel.likeCount}"),
                       ],
                     ),
@@ -159,11 +158,9 @@ class HomeScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    await _homeController.showComments(postId: postModel.postId!);
-
+                    FocusScope.of(context).unfocus();
                     Get.to(
                       () => CommentDetailsScreen(
-                        comments: _homeController.comments,
                         postModel: postModel,
                       ),
                     );
@@ -222,9 +219,9 @@ class HomeScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    _homeController.commentPost(
+                    _homeController.createComment(
                       postId: postModel.postId!,
-                      comment: _controllers[index].text,
+                      commentText: _controllers[index].text,
                     );
                     _controllers[index].clear();
                   },

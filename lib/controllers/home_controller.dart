@@ -73,10 +73,10 @@ class HomeController extends GetxController {
     }
   }
 
-  Future commentPost({required String postId, required String comment}) async {
+  Future createComment({required String postId, required String commentText}) async {
     String formattedDate = DateFormat('d MMMM - kk:mm:ss').format(DateTime.now());
     CommentModel commentModel = CommentModel(
-      coment: comment,
+      coment: commentText,
       dateTime: formattedDate,
       uId: UserController.model!.uId,
       name: UserController.model!.name,
@@ -92,6 +92,9 @@ class HomeController extends GetxController {
       value.update({
         "commentId": value.id,
       });
+      commentModel.commentId = value.id;
+
+      comments.insert(0, commentModel);
 
       update();
     }).catchError((error) {
@@ -104,7 +107,7 @@ class HomeController extends GetxController {
   Future showComments({required String postId}) async {
     comments = [];
 
-    return await _fireStore
+    await _fireStore
         .collection("posts")
         .doc(postId)
         .collection("comments")
@@ -114,10 +117,10 @@ class HomeController extends GetxController {
       value.docs.forEach((element) {
         comments.add(CommentModel.fromJson(element.data()));
       });
-      print(comments);
     }).catchError((error) {
       print(error.toString());
     });
+    update();
   }
 
   Future deleteComment({

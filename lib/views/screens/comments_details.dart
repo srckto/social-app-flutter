@@ -2,22 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:social_app/controllers/home_controller.dart';
 import 'package:social_app/controllers/user_controller.dart';
-import 'package:social_app/models/comment_model.dart';
 import 'package:social_app/models/post_model.dart';
 import 'package:social_app/styles/Iconly-Broken_icons.dart';
 import 'package:social_app/views/widgets/image_profile.dart';
 
+// ignore: must_be_immutable
 class CommentDetailsScreen extends StatelessWidget {
-  final List<CommentModel> comments;
+  // List<CommentModel> comments;
   final PostModel postModel;
-  CommentDetailsScreen({required this.comments, required this.postModel});
+  CommentDetailsScreen({required this.postModel});
 
   final HomeController _homeController = Get.put(HomeController());
 
-  // TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    _homeController.showComments(postId: postModel.postId!);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Comments"),
@@ -67,7 +69,7 @@ class CommentDetailsScreen extends StatelessWidget {
                 builder: (_) => ListView.builder(
                   // shrinkWrap: true,
                   // physics: NeverScrollableScrollPhysics(),
-                  itemCount: comments.length,
+                  itemCount: _homeController.comments.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       padding: EdgeInsets.symmetric(vertical: 10),
@@ -76,7 +78,7 @@ class CommentDetailsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ImageProfile(image: comments[index].image!, radius: 20),
+                            ImageProfile(image: _homeController.comments[index].image!, radius: 20),
                             SizedBox(width: 10),
                             Expanded(
                               child: Column(
@@ -86,14 +88,14 @@ class CommentDetailsScreen extends StatelessWidget {
                                     TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: "${comments[index].name!} ",
+                                          text: "${_homeController.comments[index].name!} ",
                                           style: Theme.of(context).textTheme.headline3!.copyWith(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,
                                               ),
                                         ),
                                         TextSpan(
-                                          text: comments[index].coment!,
+                                          text: _homeController.comments[index].coment!,
                                           style: Theme.of(context).textTheme.headline3!.copyWith(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 16,
@@ -103,18 +105,18 @@ class CommentDetailsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    comments[index].dateTime!,
+                                    _homeController.comments[index].dateTime!,
                                     style: Theme.of(context).textTheme.caption!.copyWith(),
                                   ),
                                 ],
                               ),
                             ),
-                            if (UserController.model!.uId == comments[index].uId)
+                            if (UserController.model!.uId == _homeController.comments[index].uId)
                               TextButton(
                                 onPressed: () {
                                   _homeController.deleteComment(
                                     postId: postModel.postId!,
-                                    commentModel: comments[index],
+                                    commentModel: _homeController.comments[index],
                                   );
                                 },
                                 child: Text("delete", style: TextStyle(color: Colors.red)),
@@ -124,6 +126,43 @@ class CommentDetailsScreen extends StatelessWidget {
                       ),
                     );
                   },
+                ),
+              ),
+            ),
+
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    SizedBox(width: 6),
+                    Expanded(
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText: "Write your commet here.....",
+                          border: InputBorder.none,
+                        ),
+                        controller: _textController,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        await _homeController.createComment(
+                          postId: postModel.postId!,
+                          commentText: _textController.text,
+                        );
+                        _textController.clear();
+                      },
+                      child: Icon(
+                        (Iconly_Broken.Send),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

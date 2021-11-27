@@ -82,7 +82,6 @@ class RegisterController extends GetxController {
         margin: EdgeInsets.all(15),
         snackPosition: SnackPosition.BOTTOM,
       );
-
     } 
   }
 }
