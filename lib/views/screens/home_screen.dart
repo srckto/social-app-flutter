@@ -65,7 +65,6 @@ class HomeScreen extends StatelessWidget {
 
   Card _buildPostItem(BuildContext context, Size _size, PostModel postModel, int index) {
     _controllers.add(new TextEditingController());
-    // _homeController.getLikeCount(postId: postModel.postId!);
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 8,

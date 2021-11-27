@@ -7,8 +7,14 @@ import 'package:social_app/models/user_model.dart';
 import 'package:social_app/views/screens/social_layout.dart';
 
 class RegisterController extends GetxController {
+
+  // To change between Register Button and CircularProgressIndicator
   bool isRegisterButtonPress = false;
+
+  // To show or hide a password
   bool visibilityOfPassword = true;
+
+  // Function to change the value of a variable visibilityOfPassword
   void changeVisibility() {
     visibilityOfPassword = !visibilityOfPassword;
     update();
@@ -21,18 +27,18 @@ class RegisterController extends GetxController {
     required String phone,
   }) async {
     try {
-      // Create user in firebaseAuth
 
+      // Change LoginButton to CircularProgressIndicator
       isRegisterButtonPress = true;
       update();
 
+      // Create a user account in firebaseAuth
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Now Create user in fireStore
-
+      // Create Model to user
       UserModel model = UserModel(
         email: email,
         name: name,
@@ -44,17 +50,27 @@ class RegisterController extends GetxController {
         bio: "Write a bio",
         cover: "https://image.freepik.com/free-photo/friends-social-media_53876-90180.jpg",
       );
+
+      // then, Create user in fireStore to save data online
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user!.uid)
           .set(model.toMap());
 
+
+      // Get user data and save
       await UserController.getUserData();
 
+
+      // Change CircularProgressIndicator to default button
       isRegisterButtonPress = false;
       update();
+
+      // Navigate to a home screen of the app
       Get.off(() => SocialLayout());
     } on FirebaseAuthException catch (e) {
+
+      // Change CircularProgressIndicator to default button
       isRegisterButtonPress = false;
       update();
 
@@ -67,13 +83,6 @@ class RegisterController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
 
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
+    } 
   }
 }

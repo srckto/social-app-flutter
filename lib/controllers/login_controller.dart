@@ -5,8 +5,14 @@ import 'package:social_app/controllers/user_controller.dart';
 import 'package:social_app/views/screens/social_layout.dart';
 
 class LoginController extends GetxController {
+
+  // To change between Login Button and CircularProgressIndicator
   bool isLoginButtonPress = false;
+
+  // To show or hide a password
   bool visibilityOfPassword = true;
+
+  // Function to change the value of a variable visibilityOfPassword
   void changeVisibility() {
     visibilityOfPassword = !visibilityOfPassword;
     update();
@@ -14,26 +20,31 @@ class LoginController extends GetxController {
 
   Future login({required String email, required String password}) async {
     try {
+      // Change LoginButton to CircularProgressIndicator
       isLoginButtonPress = true;
       update();
 
+      // SignIn user
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
+      // Get user data
       await UserController.getUserData();
+
+      // Change CircularProgressIndicator to default button
       isLoginButtonPress = false;
       update();
 
       // Navigate to homeScreen for app
-
       Get.off(() => SocialLayout());
     } on FirebaseAuthException catch (e) {
+      // Change CircularProgressIndicator to default button
       isLoginButtonPress = false;
       update();
 
-      // Show an error in the screen
+      // then, show an error in the screen
       Get.snackbar(
         "Error",
         e.message.toString(),
@@ -41,12 +52,6 @@ class LoginController extends GetxController {
         margin: EdgeInsets.all(15),
         snackPosition: SnackPosition.BOTTOM,
       );
-
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
     }
   }
 }
