@@ -85,8 +85,9 @@ class RegisterScreen extends StatelessWidget {
                     ),
 
                     SizedBox(height: 30),
-                    Obx(
-                      () => TextFormField(
+
+                    GetBuilder<RegisterController>(
+                      builder: (_) => TextFormField(
                         decoration: InputDecoration(
                           filled: true,
                           prefixIcon: Icon(Icons.lock_outline),
@@ -101,13 +102,13 @@ class RegisterScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 8.0),
                             child: IconButton(
                               onPressed: () => _controller.changeVisibility(),
-                              icon: _controller.visibility.value
+                              icon: _controller.visibilityOfPassword
                                   ? Icon(Icons.visibility)
                                   : Icon(Icons.visibility_off),
                             ),
                           ),
                         ),
-                        obscureText: _controller.visibility.value,
+                        obscureText: _controller.visibilityOfPassword,
                         controller: _passwordController,
                         keyboardType: TextInputType.visiblePassword,
                         validator: (value) {
@@ -145,8 +146,8 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 30),
                     // SizedBox()
-                    Obx(() {
-                      if (_controller.state.value == false) {
+                    GetBuilder<RegisterController>(builder: (_) {
+                      if (_controller.isRegisterButtonPress == false) {
                         return DefultButton(
                           label: "Register",
                           onPressed: () async {

@@ -5,31 +5,35 @@ import 'package:social_app/controllers/user_controller.dart';
 import 'package:social_app/views/screens/social_layout.dart';
 
 class LoginController extends GetxController {
-  RxBool state = false.obs;
-  RxBool visibility = true.obs;
+  bool isLoginButtonPress = false;
+  bool visibilityOfPassword = true;
   void changeVisibility() {
-    visibility.value = !visibility.value;
+    visibilityOfPassword = !visibilityOfPassword;
+    update();
   }
 
   Future login({required String email, required String password}) async {
     try {
-      state.value = true;
+      isLoginButtonPress = true;
+      update();
+
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
       await UserController.getUserData();
-      state.value = false;
+      isLoginButtonPress = false;
+      update();
 
       // Navigate to homeScreen for app
 
       Get.off(() => SocialLayout());
     } on FirebaseAuthException catch (e) {
-      state.value = false;
+      isLoginButtonPress = false;
+      update();
 
-
-      // Show an error in screen
+      // Show an error in the screen
       Get.snackbar(
         "Error",
         e.message.toString(),
@@ -37,7 +41,6 @@ class LoginController extends GetxController {
         margin: EdgeInsets.all(15),
         snackPosition: SnackPosition.BOTTOM,
       );
-
 
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

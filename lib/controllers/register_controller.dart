@@ -7,10 +7,11 @@ import 'package:social_app/models/user_model.dart';
 import 'package:social_app/views/screens/social_layout.dart';
 
 class RegisterController extends GetxController {
-  RxBool state = false.obs;
-  RxBool visibility = true.obs;
+  bool isRegisterButtonPress = false;
+  bool visibilityOfPassword = true;
   void changeVisibility() {
-    visibility.value = !visibility.value;
+    visibilityOfPassword = !visibilityOfPassword;
+    update();
   }
 
   Future register({
@@ -22,7 +23,9 @@ class RegisterController extends GetxController {
     try {
       // Create user in firebaseAuth
 
-      state.value = true;
+      isRegisterButtonPress = true;
+      update();
+
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -47,13 +50,15 @@ class RegisterController extends GetxController {
           .set(model.toMap());
 
       await UserController.getUserData();
-      state.value = false;
+
+      isRegisterButtonPress = false;
+      update();
       Get.off(() => SocialLayout());
     } on FirebaseAuthException catch (e) {
-      state.value = false;
+      isRegisterButtonPress = false;
+      update();
 
-
-      // Show an error in screen
+      // Show an error in the screen to user
       Get.snackbar(
         "Error",
         e.message.toString(),
@@ -61,7 +66,7 @@ class RegisterController extends GetxController {
         margin: EdgeInsets.all(15),
         snackPosition: SnackPosition.BOTTOM,
       );
-      
+
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {

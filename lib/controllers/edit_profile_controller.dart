@@ -9,7 +9,7 @@ import 'package:social_app/models/user_model.dart';
 
 class EditProfileController extends GetxController {
   File? profileImage;
-  bool state = false;
+  bool isUpdateButtonPress = false;
 
   Future getProfileImage() async {
     final XFile? pikcedFile = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
@@ -60,13 +60,10 @@ class EditProfileController extends GetxController {
     String? name,
     String? phone,
   }) async {
-    state = true;
+    isUpdateButtonPress = true;
     update();
-
     await uploadProfileImage();
-    print("uploadProfileImage");
     await uploadCoverImage();
-    print("uploadCoverImage");
     UserModel userModel = UserModel(
       bio: bio,
       name: name,
@@ -80,7 +77,7 @@ class EditProfileController extends GetxController {
 
     await FirebaseFirestore.instance.collection("users").doc(UserController.model!.uId).update(userModel.toMap()).then((value) async {
       await UserController.getUserData();
-      state = false;
+      isUpdateButtonPress = false;
       Get.back();
     });
     print("Complete");

@@ -50,7 +50,7 @@ class EditProfileScreen extends StatelessWidget {
               GetBuilder<EditProfileController>(
                 init: EditProfileController(),
                 builder: (controller) {
-                  return controller.state
+                  return controller.isUpdateButtonPress
                       ? Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: LinearProgressIndicator(

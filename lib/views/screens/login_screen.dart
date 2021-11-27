@@ -4,13 +4,13 @@ import 'package:social_app/controllers/login_controller.dart';
 import 'package:social_app/views/screens/register_screen.dart';
 import 'package:social_app/views/widgets/defult_button.dart';
 
-// ignore: must_be_immutable
+
 class LoginScreen extends StatelessWidget {
-  TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final LoginController _controller = Get.put(LoginController());
 
@@ -56,8 +56,8 @@ class LoginScreen extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 30),
-                    Obx(
-                      () => TextFormField(
+                    GetBuilder<LoginController>(
+                      builder: (_) => TextFormField(
                         decoration: InputDecoration(
                           filled: true,
                           prefixIcon: Icon(Icons.lock_outline),
@@ -72,13 +72,13 @@ class LoginScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 8.0),
                             child: IconButton(
                               onPressed: () => _controller.changeVisibility(),
-                              icon: _controller.visibility.value
+                              icon: _controller.visibilityOfPassword
                                   ? Icon(Icons.visibility)
                                   : Icon(Icons.visibility_off),
                             ),
                           ),
                         ),
-                        obscureText: _controller.visibility.value,
+                        obscureText: _controller.visibilityOfPassword,
                         controller: _passwordController,
                         keyboardType: TextInputType.visiblePassword,
                         validator: (value) {
@@ -92,23 +92,25 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 30),
-                    Obx(() {
-                      if (_controller.state.value == false) {
-                        return DefultButton(
-                          label: "Login",
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              _controller.login(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              );
-                            }
-                          },
-                        );
-                      } else
-                        return CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                        );
+                    GetBuilder<LoginController>(builder: (_) {
+                      {
+                        if (_controller.isLoginButtonPress == false) {
+                          return DefultButton(
+                            label: "Login",
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                _controller.login(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                );
+                              }
+                            },
+                          );
+                        } else
+                          return CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          );
+                      }
                     }),
                     SizedBox(height: 15),
                     Row(
