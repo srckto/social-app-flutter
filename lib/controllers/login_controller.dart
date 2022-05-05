@@ -6,13 +6,10 @@ import 'package:social_app/views/screens/social_layout.dart';
 
 class LoginController extends GetxController {
 
-  // To change between Login Button and CircularProgressIndicator
   bool isLoading = false;
 
-  // To show or hide a password
   bool visibilityOfPassword = true;
 
-  // Function to change the value of a variable visibilityOfPassword
   void changeVisibility() {
     visibilityOfPassword = !visibilityOfPassword;
     update();
@@ -20,7 +17,6 @@ class LoginController extends GetxController {
 
   Future login({required String email, required String password}) async {
     try {
-      // Change LoginButton to CircularProgressIndicator
       isLoading = true;
       update();
 

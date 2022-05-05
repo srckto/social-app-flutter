@@ -25,7 +25,7 @@ class SocialLayoutController {
     BoardingItem(label: "Home", icon: Icon(Iconly_Broken.Home), screen: HomeScreen()),
     BoardingItem(label: "Chat", icon: Icon(Iconly_Broken.Chat), screen: ChatScreen()),
     BoardingItem(label: "Post", icon: Icon(Iconly_Broken.Paper_Upload), screen: CreatePostScreen()),
-    BoardingItem(label: "Location", icon: Icon(Iconly_Broken.Location), screen: UserLocationScreen()),
+    BoardingItem(label: "My Location", icon: Icon(Iconly_Broken.Location), screen: UserLocationScreen()),
     BoardingItem(label: "Setting", icon: Icon(Iconly_Broken.Setting), screen: SettingScreen()),
   ];
 

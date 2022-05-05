@@ -5,9 +5,14 @@ import 'package:social_app/styles/Iconly-Broken_icons.dart';
 import 'package:social_app/views/screens/edit_profile_screen.dart';
 import 'package:social_app/views/widgets/image_profile.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   SettingScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -164,8 +169,10 @@ class SettingScreen extends StatelessWidget {
                 ),
                 SizedBox(width: 2),
                 OutlinedButton(
-                  onPressed: () {
-                    Get.to(() => EditProfileScreen());
+                  onPressed: () async {
+                    await Get.to(() => EditProfileScreen())!.then((value) {
+                      setState(() {});
+                    });
                   },
                   child: Icon(Iconly_Broken.Edit),
                 ),

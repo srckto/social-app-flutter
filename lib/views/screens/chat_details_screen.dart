@@ -39,6 +39,7 @@ class ChatDetailsScreen extends StatelessWidget {
                   );
                 } else
                   return ListView.separated(
+                    physics: BouncingScrollPhysics(),
                     reverse: true,
                     itemCount: _messageController.messages.length,
                     separatorBuilder: (BuildContext context, int index) {
