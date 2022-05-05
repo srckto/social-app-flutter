@@ -94,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: 30),
                     GetBuilder<LoginController>(builder: (_) {
                       {
-                        if (_controller.isLoginButtonPress == false) {
+                        if (_controller.isLoading == false) {
                           return DefultButton(
                             label: "Login",
                             onPressed: () async {

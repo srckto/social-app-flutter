@@ -7,7 +7,7 @@ import 'package:social_app/views/screens/social_layout.dart';
 class LoginController extends GetxController {
 
   // To change between Login Button and CircularProgressIndicator
-  bool isLoginButtonPress = false;
+  bool isLoading = false;
 
   // To show or hide a password
   bool visibilityOfPassword = true;
@@ -21,7 +21,7 @@ class LoginController extends GetxController {
   Future login({required String email, required String password}) async {
     try {
       // Change LoginButton to CircularProgressIndicator
-      isLoginButtonPress = true;
+      isLoading = true;
       update();
 
       // SignIn user
@@ -34,14 +34,14 @@ class LoginController extends GetxController {
       await UserController.getUserData();
 
       // Change CircularProgressIndicator to default button
-      isLoginButtonPress = false;
+      isLoading = false;
       update();
 
       // Navigate to homeScreen for app
       Get.off(() => SocialLayout());
     } on FirebaseAuthException catch (e) {
       // Change CircularProgressIndicator to default button
-      isLoginButtonPress = false;
+      isLoading = false;
       update();
 
       // then, show an error in the screen
